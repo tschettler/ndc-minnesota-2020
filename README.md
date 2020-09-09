@@ -7,5 +7,5 @@ You will need a couple of `dotnet` CLI tools installed:
 ```
 dotnet tool install -g dotnet-grpc
 
-dotnet tool install -g Microsoft.Tye --version "0.2.0-alpha.20258.3"
+dotnet tool install -g Microsoft.Tye --version "0.4.0-alpha.20371.1"
 ```
