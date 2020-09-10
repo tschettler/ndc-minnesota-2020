@@ -8,14 +8,8 @@ using StackExchange.Redis;
 
 namespace Orders.PubSub
 {
-    public interface IOrderPublisher : IDisposable
-    {
-        Task PublishOrder(IEnumerable<string> toppingIds, DateTimeOffset time);
-    }
-
     public class OrderPublisher : IOrderPublisher
     {
-        private const string ConnectionString = "ndcworkshop.redis.cache.windows.net:6380,password=bsB7CZhUC0g4KeAz15hQtTvIuH4PpY8tfePNs0PohBM=,ssl=True,abortConnect=False";
         private readonly IConnectionMultiplexer _redis;
         private readonly ISubscriber _sub;
         private readonly ILogger<OrderPublisher> _log;
@@ -23,7 +17,7 @@ namespace Orders.PubSub
         public OrderPublisher(ILogger<OrderPublisher> log)
         {
             _log = log;
-            _redis = ConnectionMultiplexer.Connect(ConnectionString);
+            _redis = ConnectionMultiplexer.Connect(Constants.ConnectionString);
             _sub = _redis.GetSubscriber();
         }
 

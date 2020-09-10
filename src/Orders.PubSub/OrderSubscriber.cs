@@ -10,7 +10,6 @@ namespace Orders.PubSub
 {
     public class OrderSubscriber : BackgroundService
     {
-        private const string ConnectionString = "ndcworkshop.redis.cache.windows.net:6380,password=bsB7CZhUC0g4KeAz15hQtTvIuH4PpY8tfePNs0PohBM=,ssl=True,abortConnect=False";
         private readonly IConnectionMultiplexer _redis;
         private readonly ISubscriber _sub;
         private readonly OrderMessages _orderMessages;
@@ -20,7 +19,7 @@ namespace Orders.PubSub
         {
             _orderMessages = orderMessages;
             _log = log;
-            _redis = ConnectionMultiplexer.Connect(ConnectionString);
+            _redis = ConnectionMultiplexer.Connect(Constants.ConnectionString);
             _sub = _redis.GetSubscriber();
         }
 

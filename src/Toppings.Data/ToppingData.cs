@@ -11,7 +11,7 @@ namespace Toppings.Data
     {
         private readonly ILogger<ToppingData> _log;
         private const string AccountName = "ndcworkshop";
-        private const string AccountKey = "BAqu7sOgV6Sd8KHKE2HJLT2ATNNvwYPPXw03h8zm0HGAiXYdVM2/k5hQWc0odcNnvDBr8hFAkGNeipsiveKjzg==";
+        private const string AccountKey = "lQXF7DSqcbxiR50twPAFu5WeVhFC6F4KJvOIrKcaYk4u3F/2fC+u7PyScC2G/IM21sRS59GOnknW5Dn7I/bL1A==";
         private const string BaseUri = "https://ndcworkshop.table.core.windows.net";
         private const string TableName = "toppings";
         private readonly CloudTable _table;
