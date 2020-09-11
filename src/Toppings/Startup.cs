@@ -40,7 +40,7 @@ namespace Toppings {
             app.UseRouting ();
 
             app.UseCertificateForwarding ();
-            app.UseAuthorization ();
+            app.UseAuthentication ();
             app.UseAuthorization ();
 
             app.UseEndpoints (endpoints => {
