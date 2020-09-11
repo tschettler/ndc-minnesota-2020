@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+        frontend:
+                image: pizza/frontend
+                build:
+                        context: .
+                        dockerfile: Frontend.Dockerfile
+        orders:
+            image: pizza/orders
+            build:
+                    context: .
+                    dockerfile: Orders.Dockerfile
+        toppings:
+            image: pizza/toppings
+            build:
+                    context: .
+                    dockerfile: Toppings.Dockerfile                                    
