@@ -26,4 +26,7 @@
     <Protobuf Include="Protos\orders.proto" GrpcServices="Client" ProtoRoot="Protos" />
     <Protobuf Include="Protos\toppings.proto" GrpcServices="Client" ProtoRoot="Protos" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AuthHelp\AuthHelp.csproj" />
+  </ItemGroup>
 </Project>
