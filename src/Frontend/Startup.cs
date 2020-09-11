@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,11 +24,30 @@ namespace Frontend {
         public void ConfigureServices (IServiceCollection services) {
             services.AddControllersWithViews ();
 
+            services.AddHttpClient<IAuthHelper, AuthHelper> ()
+                .ConfigureHttpClient ((provider, client) => {
+                    var config = provider.GetRequiredService<IConfiguration> ();
+                    client.BaseAddress = config.GetServiceUri ("Orders");
+                    client.DefaultRequestVersion = new Version (2, 0);
+                });
+
             services.AddGrpcClient<Orders.OrdersClient> ((provider, options) => {
                 var config = provider.GetRequiredService<IConfiguration> ();
                 options.Address = config.GetServiceUri ("Orders");
-            });            
-            
+            }).ConfigureChannel ((provider, channel) => {
+                // can also do channel.HttpClient..., but not the gRPC way of doing things
+                var authHelper = provider.GetRequiredService<IAuthHelper> ();
+
+                // gRPC specific authentication
+                var credentials = CallCredentials.FromInterceptor (async (context, metadata) => {
+                    // this token will expire and so will eventually not be valid anymore
+                    var token = await authHelper.GetTokenAsync ();
+                    metadata.Add ("Authorization", $"Bearer {token}");
+                });
+
+                channel.Credentials = ChannelCredentials.Create (new SslCredentials (), credentials);
+            });
+
             services.AddGrpcClient<Toppings.ToppingsClient> ((provider, options) => {
                 var config = provider.GetRequiredService<IConfiguration> ();
                 options.Address = config.GetServiceUri ("Toppings", "https");
