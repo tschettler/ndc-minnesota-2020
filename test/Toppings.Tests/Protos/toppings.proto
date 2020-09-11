@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+import "decimal.proto";
+
+option csharp_namespace = "Toppings.Tests";
+
+package toppings;
+
+service Toppings {
+    rpc DecrementStock(DecrementStockRequest) returns (DecrementStockResponse);
+    rpc GetAvailable(AvailableRequest) returns (AvailableResponse);
+}
+
+message AvailableRequest { }
+
+message AvailableResponse {
+    repeated AvailableTopping toppings = 1;
+}
+
+message DecrementStockRequest {
+    repeated string topping_ids = 1;
+}
+
+message DecrementStockResponse {}
+
+message AvailableTopping {
+    Topping topping = 1;
+    int32 quantity = 2;
+}
+
+message Topping {
+    string id = 1;
+    string name = 2;
+    customTypes.DecimalValue price = 3;
+}
+

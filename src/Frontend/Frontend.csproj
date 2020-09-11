@@ -12,4 +12,18 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.13.0" />
+    <PackageReference Include="Grpc.AspNetCore.Server.ClientFactory" Version="2.31.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.31.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Tye.Extensions.Configuration" Version="0.4.0-alpha.20371.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Protobuf Include="Protos\decimal.proto" GrpcServices="None" />
+    <Protobuf Include="Protos\orders.proto" GrpcServices="Client" ProtoRoot="Protos" />
+    <Protobuf Include="Protos\toppings.proto" GrpcServices="Client" ProtoRoot="Protos" />
+  </ItemGroup>
 </Project>

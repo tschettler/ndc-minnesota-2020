@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Orders.ShopConsole";
+
+package orders;
+
+service Orders {
+    rpc Subscribe(SubscribeRequest) returns (stream SubscribeResponse);
+}
+
+message SubscribeRequest {}
+
+message SubscribeResponse {
+    repeated string topping_ids = 1;
+    google.protobuf.Timestamp time = 2;
+}

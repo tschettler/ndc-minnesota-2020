@@ -1,0 +1,10 @@
+﻿{
+  "profiles": {
+    "Orders.ShopConsole": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
