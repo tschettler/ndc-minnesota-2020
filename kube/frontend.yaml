@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: pizza
+spec: # spec for the deployment
+  selector:
+    matchLabels:
+      run: frontend
+  replicas: 1 # how many do we want running?
+  template: # used to create each replica
+    metadata:
+      labels:
+        run: frontend
+    spec: # another spec for the template
+      containers:
+        - name: frontend # - specifies an array
+          image: pizza/frontend:latest
+          imagePullPolicy: Never # use the version you already have, don't go to the registry
+          resources:
+            limits: 
+              cpu: 100m # 100% of one CPU core
+              memory: 100Mi # Mebibytes
+          ports:
+          - containerPort: 80
+          env: # environment variables
+          - name: DOTNET_SYSTEM_NET_HTTP_SOCKETSHTTPHANDLER_HTTP2UNENCRYPTEDSUPPORT # allow unencryped HTTP/2 communication 
+            value: "true"
+          - name: Service__Toppings__Host
+            value: "toppings"
+          - name: Service__Toppings__Port
+            value: "80"
+          - name: Service__Toppings__Protocol
+            value: "http"
+          - name: Service__Orders__Host
+            value: "orders"
+          - name: Service__Orders__Port
+            value: "80"
+          - name: Service__Orders__Protocol
+            value: "http"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend # fine to have two different kinds of objects with the same name
+  namespace: pizza
+spec:
+  type: NodePort
+  ports: # what port the service is exposed on
+  - port: 80
+    nodePort: 30001
+  selector:
+    run: frontend # finds any pods running in the cluster, within the pizza namespace, have a key of "run" and a value of "frontend"

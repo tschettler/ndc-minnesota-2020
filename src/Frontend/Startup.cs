@@ -55,7 +55,8 @@ namespace Frontend {
 
             services.AddGrpcClient<Toppings.ToppingsClient> ((provider, options) => {
                 var config = provider.GetRequiredService<IConfiguration> ();
-                options.Address = config.GetServiceUri ("Toppings", "https");
+                //options.Address = config.GetServiceUri ("Toppings", "https");
+                options.Address = config.GetServiceUri ("Toppings");
             }).ConfigureChannel ((provider, channel) => {
                 // this doesn't work here: channel.HttpHandler = DevelopmentModeCertificateHelper.CreateClientHandler;
                 channel.HttpClient = provider.GetRequiredService<IHttpClientFactory> ().CreateClient ("toppings");
@@ -70,9 +71,9 @@ namespace Frontend {
             } else {
                 app.UseExceptionHandler ("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts ();
+               // app.UseHsts ();
             }
-            app.UseHttpsRedirection ();
+           // app.UseHttpsRedirection ();
             app.UseStaticFiles ();
 
             app.UseRouting ();

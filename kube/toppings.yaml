@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: toppings
+  namespace: pizza
+spec: # spec for the deployment
+  selector:
+    matchLabels:
+      run: toppings
+  replicas: 1 # how many do we want running?
+  template: # used to create each replica
+    metadata:
+      labels:
+        run: toppings
+    spec: # another spec for the template
+      containers:
+        - name: toppings # - specifies an array
+          image: pizza/toppings:latest
+          imagePullPolicy: Never # use the version you already have, don't go to the registry
+          resources:
+            limits: 
+              cpu: 100m # 100% of one CPU core
+              memory: 100Mi # Mebibytes
+          ports:
+          - containerPort: 80
+          env: # environment variables
+          - name: DOTNET_SYSTEM_NET_HTTP_SOCKETSHTTPHANDLER_HTTP2UNENCRYPTEDSUPPORT # allow unencryped HTTP/2 communication 
+            value: "true"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: toppings # fine to have two different kinds of objects with the same name
+  namespace: pizza
+spec:
+  ports: # what port the service is exposed on
+  - port: 80
+  selector:
+    run: toppings # finds any pods running in the cluster, within the pizza namespace, have a key of "run" and a value of "toppings"

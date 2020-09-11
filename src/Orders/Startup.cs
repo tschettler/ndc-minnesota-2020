@@ -26,7 +26,8 @@ namespace Orders {
 
             services.AddGrpcClient<Toppings.ToppingsClient> ((provider, options) => {
                 var config = provider.GetRequiredService<IConfiguration> ();
-                options.Address = config.GetServiceUri ("Toppings", "https");
+                //options.Address = config.GetServiceUri ("Toppings", "https");
+                options.Address = config.GetServiceUri ("Toppings");
             }).ConfigureChannel ((provider, channel) => {
                 // this doesn't work here: channel.HttpHandler = DevelopmentModeCertificateHelper.CreateClientHandler;
                 channel.HttpClient = provider.GetRequiredService<IHttpClientFactory> ().CreateClient ("toppings");
